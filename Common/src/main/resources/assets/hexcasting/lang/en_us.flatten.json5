@@ -889,6 +889,7 @@
         sin: "the sine of %s",
         cos: "the cosine of %s",
       },
+      invalid_operator_args: "%s did not expect %s"
 
       no_akashic_record: "No Akashic Record at %s",
       disallowed: "has been disallowed by the server admins",
