@@ -3,7 +3,6 @@ package at.petrak.hexcasting.api.casting.mishaps
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.GarbageIota
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.math.HexPattern
 import at.petrak.hexcasting.api.pigment.FrozenPigment
 import net.minecraft.network.chat.ComponentContents
 import net.minecraft.network.chat.MutableComponent
@@ -13,13 +12,12 @@ import net.minecraft.world.item.DyeColor
  * The value failed some kind of predicate.
  */
 class MishapInvalidOperatorArgs(
-    val perpetrators: List<Iota>,
-    val operator: HexPattern
+    private val perpetrators: List<Iota>
 ) : Mishap() {
     override fun accentColor(ctx: CastingEnvironment, errorCtx: Context): FrozenPigment =
         dyeColor(DyeColor.GRAY)
 
-    override fun execute(ctx: CastingEnvironment, errorCtx: Context, stack: MutableList<Iota>) {
+    override fun execute(env: CastingEnvironment, errorCtx: Context, stack: MutableList<Iota>) {
         for (i in perpetrators.indices) {
             stack[stack.size - 1 - i] = GarbageIota()
         }
@@ -27,6 +25,20 @@ class MishapInvalidOperatorArgs(
 
     override fun errorMessage(ctx: CastingEnvironment, errorCtx: Context) =
         error(
-            "invalid_operator_args", operator, perpetrators.fold(MutableComponent.create(ComponentContents.EMPTY)) { mc, iota -> mc.append(iota.display()) }
+            "invalid_operator_args",
+            perpetrators.size,
+            if (perpetrators.size == 1) "0" else "0-${perpetrators.size-1}",
+            collateIotas(perpetrators)
+
         )
+    private fun collateIotas(iotas: List<Iota>): MutableComponent {
+        val out = MutableComponent.create(ComponentContents.EMPTY)
+        for (i in iotas.indices) {
+            out.append(iotas[i].display())
+            if (i < iotas.size-1) {
+                out.append(", ")
+            }
+        }
+        return out
+    }
 }
