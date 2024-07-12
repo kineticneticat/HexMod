@@ -25,9 +25,8 @@ class MishapInvalidOperatorArgs(
 
     override fun errorMessage(ctx: CastingEnvironment, errorCtx: Context) =
         error(
-            "invalid_operator_args",
-            perpetrators.size,
-            if (perpetrators.size ==1) "index" else "indices",
+            "invalid_operator_args." + (if (perpetrators.size == 1) "single" else "plural"),
+            if (perpetrators.size == 1) "" else perpetrators.size,
             if (perpetrators.size == 1) "0" else "0-${perpetrators.size-1}",
             collateIotas(perpetrators)
 
