@@ -891,11 +891,8 @@
       },
 
       invalid_operator_args: {
-        // first is the amount of iotas (unless its 1, then nothing)
-        // second is the indices/index
-        // third is the iotas
-        single: "Got %san unexpected iota at index %s of the stack: %s",
-        plural: "Got %s unexpected iotas at indices %s of the stack: %s",
+        single: "Got an unexpected iota at index %d of the stack: %s",
+        plural: "Got %d unexpected iotas at indices %d-%d of the stack: %s",
       },
 
       no_akashic_record: "No Akashic Record at %s",

@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.GarbageIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.pigment.FrozenPigment
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentContents
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.item.DyeColor
@@ -23,14 +24,23 @@ class MishapInvalidOperatorArgs(
         }
     }
 
-    override fun errorMessage(ctx: CastingEnvironment, errorCtx: Context) =
-        error(
-            "invalid_operator_args." + (if (perpetrators.size == 1) "single" else "plural"),
-            if (perpetrators.size == 1) "" else perpetrators.size,
-            if (perpetrators.size == 1) "0" else "0-${perpetrators.size-1}",
-            collateIotas(perpetrators)
-
-        )
+    override fun errorMessage(ctx: CastingEnvironment, errorCtx: Context): Component {
+        return if (perpetrators.size == 1) {
+            error(
+                "invalid_operator_args.single",
+                0,
+                perpetrators[0].display()
+            )
+        } else {
+            error(
+                "invalid_operator_args.plural",
+                perpetrators.size,
+                0,
+                perpetrators.size-1,
+                collateIotas(perpetrators)
+            )
+        }
+    }
     private fun collateIotas(iotas: List<Iota>): MutableComponent {
         val out = MutableComponent.create(ComponentContents.EMPTY)
         for (i in iotas.indices) {
