@@ -890,7 +890,7 @@
         cos: "the cosine of %s",
       },
 
-      invalid_operator_args: "Got %s unexpected iotas at indices %s of the stack: %s",
+      invalid_operator_args: "Got %s unexpected iotas at %s %s of the stack: %s",
 
       no_akashic_record: "No Akashic Record at %s",
       disallowed: "has been disallowed by the server admins",

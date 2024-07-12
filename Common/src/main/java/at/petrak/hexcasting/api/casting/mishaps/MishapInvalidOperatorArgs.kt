@@ -27,6 +27,7 @@ class MishapInvalidOperatorArgs(
         error(
             "invalid_operator_args",
             perpetrators.size,
+            if (perpetrators.size ==1) "index" else "indices",
             if (perpetrators.size == 1) "0" else "0-${perpetrators.size-1}",
             collateIotas(perpetrators)
 
