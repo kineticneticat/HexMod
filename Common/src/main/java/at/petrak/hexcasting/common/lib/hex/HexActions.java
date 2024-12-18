@@ -394,6 +394,8 @@ public class HexActions {
         new ActionRegistryEntry(HexPattern.fromAngles("qwaqde", HexDir.NORTH_WEST), OpEvalBreakable.INSTANCE));
     public static final ActionRegistryEntry HALT = make("halt",
         new ActionRegistryEntry(HexPattern.fromAngles("aqdee", HexDir.SOUTH_WEST), OpHalt.INSTANCE));
+    public static final ActionRegistryEntry SUBTLE = make("subtle",
+            new ActionRegistryEntry(HexPattern.fromAngles("qqaqq", HexDir.EAST), OpSubtleNext.INSTANCE));
 
     public static final ActionRegistryEntry READ = make("read",
         new ActionRegistryEntry(HexPattern.fromAngles("aqqqqq", HexDir.EAST), OpRead.INSTANCE));

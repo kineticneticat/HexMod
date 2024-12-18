@@ -50,6 +50,15 @@ class CastingVM(var image: CastingImage, val env: CastingEnvironment) {
             // ...and execute it.
             // TODO there used to be error checking code here; I'm pretty sure any and all mishaps should already
             // get caught and folded into CastResult by evaluate.
+
+//            HexAPI.LOGGER.info("countdown: ${image.userData.getInt(HexAPI.SUBTLE_USERDATA)}")
+            val isMetacasting = (next is FrameEvaluate && next.isMetacasting) || next is FrameForEach
+            val subtled = image.userData.getBoolean(HexAPI.SUBTLE_USERDATA)// && isMetacasting
+//            if (subtled) image.userData.putInt(HexAPI.SUBTLE_USERDATA, image.userData.getInt(HexAPI.SUBTLE_USERDATA)-1)
+
+            HexAPI.LOGGER.info("----------------------------")
+            HexAPI.LOGGER.info("userdata: $subtled")
+            HexAPI.LOGGER.info("meta: $isMetacasting")
             val image2 = next.evaluate(continuation.next, world, this).let { result ->
                 // if stack is unable to be serialized, have the result be an error
                 if (result.newData != null && IotaType.isTooLargeToSerialize(result.newData.stack)) {
@@ -60,9 +69,13 @@ class CastingVM(var image: CastingImage, val env: CastingEnvironment) {
                         sound = HexEvalSounds.MISHAP,
                     )
                 } else {
-                    result
+                    result.copy(sound = (if (subtled) HexEvalSounds.NOTHING else result.sound))
                 }
             }
+
+//            if(subtled) {
+//              image.userData.remove(HexAPI.SUBTLE_USERDATA)
+//            }
 
             // Then write all pertinent data back to the harness for the next iteration.
             if (image2.newData != null) {

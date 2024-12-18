@@ -224,6 +224,8 @@ public interface HexAPI {
 
     String MARKED_MOVED_USERDATA = modLoc("impulsed").toString();
 
+    String SUBTLE_USERDATA = modLoc("subtle").toString();
+
     static HexAPI instance() {
         return INSTANCE.get();
     }
